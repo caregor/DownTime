@@ -26,17 +26,12 @@ public class DatabaseWatchdog {
         while (!success) {
             try (Connection connection = DatabaseConnector.connect()) {
                 if (connection.isValid(2)) {
-                    System.out.println(LocalTime.now().format(formatter) +": Соединение с базой данных активно - ");
+                    System.out.println(LocalTime.now().format(formatter) +": Соединение с базой данных активно.");
+                    SelectData.selectData(connection);
                     success = true;
-                } else {
-                    System.out.println(LocalTime.now().format(formatter) + ": Соединение с базой данных утеряно. Повторное подключение...");
-                    success = false;
-                    // Попробуйте восстановить соединение
-                    // (может потребоваться пересоздать соединение в вашем приложении)
                 }
             } catch (SQLException e) {
                 System.out.println("Ошибка при проверке соединения: " + e.getMessage());
-                // Логгирование или другие действия при ошибке
             }
         }
     }
