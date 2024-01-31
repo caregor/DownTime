@@ -25,7 +25,7 @@ public class DatabaseWatchdog {
         boolean success = false;
         while (!success) {
             try (Connection connection = DatabaseConnector.connect()) {
-                if (connection.isValid(2)) {
+                if (connection.isValid(1)) {
                     System.out.println(LocalTime.now().format(formatter) +": Соединение с базой данных активно.");
                     SelectData.selectData(connection);
                     success = true;
